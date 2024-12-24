@@ -2,11 +2,11 @@ from fastapi import APIRouter
 import datetime
 from schemas.helloworld import ReturnSchemaTime, ReturnSchemaDate
 
-router = APIRouter()
+router = APIRouter(tags=["hello"])
 
 @router.get('/')
 async def read_root():
-    return {'message': 'Hello, FastAPI!'}
+    return {'message': f'Hello there to look into the docs please navigate to {"/docs"}'}
 
 @router.get('/day',response_model=ReturnSchemaDate)
 async def read_root():
