@@ -2,13 +2,14 @@ import os
 import subprocess
 import uvicorn
 from fastapi import FastAPI
-from routes import helloworld
+from routes import helloworld, user_data
 from pyngrok import ngrok
 from pathlib import Path
 from dotenv import load_dotenv
 
 app = FastAPI()
 app.include_router(helloworld.router)
+app.include_router(user_data.router2)
 
 env_file_path = Path(os.getcwd()) / ".env"
 load_dotenv(env_file_path)
@@ -21,9 +22,19 @@ if __name__ == '__main__':
     # Run the FastAPI application using uvicorn
     # Start ngrok tunnel
     NGROK_AUTHTOKEN = os.getenv("NGROK_AUTH_TOCKEN")
+    try:
+        subprocess.run(["ngrok", "config", "add-authtoken", NGROK_AUTHTOKEN], check=True)
+        print("Successfully added auth token to ngrok tunnel")
+    except subprocess.CalledProcessError as e:
+        print(f"Error configuring ngrok authtoken: {e}")
+        exit("Error configuring ngrok authtoken")
+
+        ######### This is a paid version ###########
     # try:
-    #     subprocess.run(["ngrok", "config", "add-authtoken", NGROK_AUTHTOKEN], check=True)
-    #     print("Successfully added auth token to ngrok tunnel")
+    #     # Start the ngrok tunnel with the reserved subdomain
+    #     domain = os.getenv("DOMAIN")
+    #     public_url = ngrok.connect(1729, bind_tls=True, subdomain=domain)
+    #     print(f"Public URL: {public_url}")  # This should now print your reserved ngrok domain
     # except subprocess.CalledProcessError as e:
     #     print(f"Error configuring ngrok authtoken: {e}")
     #     exit("Error configuring ngrok authtoken")
