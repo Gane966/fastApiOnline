@@ -2,7 +2,7 @@ import os
 import subprocess
 import uvicorn
 from fastapi import FastAPI
-from routes import helloworld, user_data
+from routes import helloworld, user_data, mongodb_connections
 from pyngrok import ngrok
 from pathlib import Path
 from dotenv import load_dotenv
@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 app = FastAPI()
 app.include_router(helloworld.router)
 app.include_router(user_data.router2)
+app.include_router(mongodb_connections.router3)
 
 env_file_path = Path(os.getcwd()) / ".env"
 load_dotenv(env_file_path)
