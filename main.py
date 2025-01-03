@@ -23,12 +23,12 @@ if __name__ == '__main__':
     # Run the FastAPI application using uvicorn
     # Start ngrok tunnel
     NGROK_AUTHTOKEN = os.getenv("NGROK_AUTH_TOCKEN")
-    try:
-        subprocess.run(["ngrok", "config", "add-authtoken", NGROK_AUTHTOKEN], check=True)
-        print("Successfully added auth token to ngrok tunnel")
-    except subprocess.CalledProcessError as e:
-        print(f"Error configuring ngrok authtoken: {e}")
-        exit("Error configuring ngrok authtoken")
+    # try:
+    #     subprocess.run(["ngrok", "config", "add-authtoken", NGROK_AUTHTOKEN], check=True)
+    #     print("Successfully added auth token to ngrok tunnel")
+    # except subprocess.CalledProcessError as e:
+    #     print(f"Error configuring ngrok authtoken: {e}")
+    #     exit("Error configuring ngrok authtoken")
 
         ######### This is a paid version ###########
     # try:
@@ -42,4 +42,4 @@ if __name__ == '__main__':
     public_url = ngrok.connect("8000")
     print(f"Public URL: {public_url}")
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True, log_level="info")
